@@ -37,3 +37,12 @@ export const doctor = (req, res, next) => {
     next(new Error('Not authorized as a doctor'));
   }
 };
+
+export const patient = (req, res, next) => {
+  if (req.user && req.user.role === 'patient') {
+    next();
+  } else {
+    res.status(403);
+    next(new Error('Not authorized as a patient'));
+  }
+};
