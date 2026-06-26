@@ -38,3 +38,21 @@ export const getDoctors = async (req, res, next) => {
     res.json(doctors);
   } catch (error) { next(error); }
 };
+export const getDoctorById = async (req, res, next) => {
+  try {
+    const doctor = await Doctor.findById(req.params.id).populate(
+      "userId",
+      "name email"
+    );
+
+    if (!doctor) {
+      return res.status(404).json({
+        message: "Doctor not found",
+      });
+    }
+
+    res.json(doctor);
+  } catch (error) {
+    next(error);
+  }
+};

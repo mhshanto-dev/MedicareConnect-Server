@@ -31,6 +31,11 @@ const appointmentSchema = new mongoose.Schema({
   meetingLink: {
     type: String, // Optional: for online consultations
   },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'paid', 'failed'],
+    default: 'pending',
+  },
 }, {
   timestamps: true,
 });

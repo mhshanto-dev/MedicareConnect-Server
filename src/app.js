@@ -33,7 +33,13 @@ app.all('/api/auth/*splat', toNodeHandler(auth));
 // ──────────────────────────────────────────
 // 3. Body parsing (for all non-Better-Auth routes)
 // ──────────────────────────────────────────
-app.use(express.json());
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/payments/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 app.use(express.urlencoded({ extended: true }));
 
 // ──────────────────────────────────────────

@@ -34,11 +34,11 @@ export const handleStripeWebhook = async (req, res, next) => {
     const { appointmentId, userId } = paymentIntent.metadata;
 
     await Payment.create({
-      userId,
+      patientId: userId,
       appointmentId,
       amount: paymentIntent.amount / 100,
-      transactionId: paymentIntent.id,
-      status: 'completed'
+      stripePaymentIntentId: paymentIntent.id,
+      status: 'succeeded'
     });
 
     await Appointment.findByIdAndUpdate(appointmentId, { status: 'confirmed', paymentStatus: 'paid' });
