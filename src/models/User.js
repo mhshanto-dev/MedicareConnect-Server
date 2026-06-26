@@ -27,6 +27,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'default-avatar.png',
   },
+  phone: {
+    type: String,
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female', 'other'],
+  },
+  status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'active',
+  },
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Doctor',
+    },
+  ],
 }, {
   timestamps: true,
 });
