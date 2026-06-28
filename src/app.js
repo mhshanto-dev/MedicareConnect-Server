@@ -16,14 +16,24 @@ const app = express();
 // 1. CORS & Cookies (must be first)
 // ──────────────────────────────────────────
 const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:3000',
-  'http://localhost:3001',
+  // Production URLs — must match exactly what the browser sends as Origin header
+  'https://frontend-orpin-eight-50.vercel.app',
+  'https://backend-two-jade-51.vercel.app',
+  // From environment variable (Vercel dashboard)
+  process.env.CLIENT_URL,
+  process.env.BETTER_AUTH_URL,
+  // Local development
   'http://localhost:3000',
-];
+  'http://localhost:3001',
+  'http://localhost:5000',
+].filter(Boolean); // remove undefined entries
+
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (e.g. curl, mobile apps)
+    // Allow requests with no origin (curl, Postman, server-to-server)
     if (!origin) return callback(null, true);
+    // Allow any Vercel deployment preview URL for this project
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
     return callback(new Error(`CORS: origin ${origin} not allowed`));
   },
