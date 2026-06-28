@@ -28,7 +28,7 @@ app.use(cookieParser());
 //    Handles: Google OAuth, sessions, sign-out
 //    Path:    /api/auth/*
 // ──────────────────────────────────────────
-app.all('/api/auth/*splat', toNodeHandler(auth));
+app.all('/api/auth/*', toNodeHandler(auth));
 
 // ──────────────────────────────────────────
 // 3. Body parsing (for all non-Better-Auth routes)

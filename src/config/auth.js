@@ -1,12 +1,13 @@
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
+import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
 const mongoClient = new MongoClient(
   process.env.MONGODB_URI || "mongodb://localhost:27017/medicare"
 );
 
 export const auth = betterAuth({
-  database: mongoClient.db(),
+  database: mongodbAdapter(mongoClient.db()),
   basePath: "/api/auth",
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-change-in-production",
   socialProviders: {
