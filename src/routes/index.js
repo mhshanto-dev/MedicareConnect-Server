@@ -3,6 +3,10 @@ import authRoutes from './authRoutes.js';
 import doctorRoutes from './doctorRoutes.js';
 import appointmentRoutes from './appointmentRoutes.js';
 import paymentRoutes from './paymentRoutes.js';
+import adminRoutes from './adminRoutes.js';
+import notificationRoutes from './notificationRoutes.js';
+import prescriptionRoutes from './prescriptionRoutes.js';
+import reviewRoutes from './reviewRoutes.js';
 
 const router = express.Router();
 
@@ -13,5 +17,9 @@ router.use('/users', authRoutes);
 router.use('/doctors', doctorRoutes);
 router.use('/appointments', appointmentRoutes);
 router.use('/payments', paymentRoutes);
+router.use('/admin', adminRoutes);
+router.use('/notifications', notificationRoutes);
+router.use('/prescriptions', prescriptionRoutes);
+router.use('/reviews', reviewRoutes);
 
 export default router;

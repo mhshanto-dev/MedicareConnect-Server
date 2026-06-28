@@ -46,3 +46,18 @@ export const handleStripeWebhook = async (req, res, next) => {
 
   res.status(200).json({ received: true });
 };
+
+export const getMyPayments = async (req, res, next) => {
+  try {
+    const payments = await Payment.find({ patientId: req.user._id })
+      .populate({
+        path: 'appointmentId',
+        populate: {
+          path: 'doctorId',
+          populate: { path: 'userId', select: 'name email' }
+        }
+      })
+      .sort({ createdAt: -1 });
+    res.json(payments);
+  } catch (error) { next(error); }
+};
