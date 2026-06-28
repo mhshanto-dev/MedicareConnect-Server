@@ -28,6 +28,20 @@ export const registerUser = async (req, res, next) => {
     
     const user = await User.create({ name, email, password: hashedPassword, role, phone, gender });
     if (user) {
+      // Auto-create a stub Doctor profile so the dashboard works immediately
+      if (role === 'doctor') {
+        await Doctor.create({
+          userId: user._id,
+          specialty: 'General Practice',
+          experience: 0,
+          qualifications: [],
+          bio: '',
+          consultationFee: 0,
+          availability: [],
+          isVerified: false,
+        });
+      }
+
       res.status(201).json({
         _id: user._id,
         name: user.name,

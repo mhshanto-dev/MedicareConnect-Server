@@ -100,9 +100,20 @@ export const updateMyDoctorProfile = async (req, res, next) => {
 
 export const getDoctorStats = async (req, res, next) => {
   try {
-    const doctor = await Doctor.findOne({ userId: req.user._id });
+    let doctor = await Doctor.findOne({ userId: req.user._id });
+
+    // Auto-create a stub profile if none exists (e.g. newly registered doctors)
     if (!doctor) {
-      return res.status(404).json({ message: 'Doctor profile not found' });
+      doctor = await Doctor.create({
+        userId: req.user._id,
+        specialty: 'General Practice',
+        experience: 0,
+        qualifications: [],
+        bio: '',
+        consultationFee: 0,
+        availability: [],
+        isVerified: false,
+      });
     }
 
     const doctorId = doctor._id;
